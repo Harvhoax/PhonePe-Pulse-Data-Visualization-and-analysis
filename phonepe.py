@@ -257,18 +257,6 @@ def Aggre_user_plot_2(df, quarter):
 
     return aguyq
 
-# #Aggre_user_analysis_3
-# def Aggre_user_plot_3(df, state):
-#     auyqs = df[df["States"] == state]
-#     auyqs.reset_index(drop = True, inplace= True)
-
-#     fig_line_2 = px.line(auyqs, x = "Brands", y= "Transaction_count", title = f"{state} BRANDS TRANSACTION COUNT, PERCENTAGE",
-#                         width = 1000, hover_name= "Percentage", markers = True)
-#     st.plotly_chart(fig_line_2, key=f"aggre_user_line_{state}_{id(df)}")
-
-#     return auyqs
-
-# Map_Insurance_District
 def Map_insur_District(df, state, context="default"):
 
     tacy = df[df["States"] == state]
@@ -338,18 +326,12 @@ def Top_insurance_plot_1(df, state):
     tiy = df[df["States"] == state]
     tiy.reset_index(drop=True, inplace=True)
     
-    # Check if filtered data is empty
-    if tiy.empty:
-        st.warning(f"No data found for state: {state}")
-        return tiy
-    
-    # Group by Pincodes for summary data
     tiyg = tiy.groupby("Pincodes")[["Transaction_count", "Transaction_amount"]].sum()
     tiyg.reset_index(inplace=True)
     
     col1, col2 = st.columns(2)
     with col1:
-        # Use the original data (tiy) for Quarter-based visualization
+  
         fig_top_insur_bar_1 = px.bar(tiy, x="Quarter", y="Transaction_amount", 
                                     hover_data=["Pincodes"], height=650, width=650, 
                                     title=f"{state.upper()} TRANSACTION AMOUNT BY QUARTER",
@@ -890,14 +872,6 @@ elif select == "DATA EXPLORATION":
 
                 quarters = st.slider("Select The Quarter_1", Aggre_user_Y["Quarter"].min(), Aggre_user_Y["Quarter"].max(), Aggre_user_Y["Quarter"].min())
             Aggre_user_Y_Q = Aggre_user_plot_2(Aggre_user_Y, quarters) 
-
-            # col1, col2 = st.columns(2)
-            # with col1:
-            #     states = st.selectbox("Select The State ", Aggre_user_Y_Q["States"].unique())
-
-            # Aggre_user_plot_3(Aggre_user_Y_Q, states)
-
-
 
     with tab2:
         method_2 = st.radio("Select the Method",["Map Insurance", "Map Transaction", "Map User"])
